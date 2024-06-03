@@ -1,0 +1,25 @@
+// S is Source vertex
+// adj[i] is a list of lists containing two integers where the first integer of each list j denotes there is edge between i and j , second integers corresponds to the weight of that  edge.
+    
+vector <int> dijkstra(int V, vector<vector<int>> adj[], int S) // To Store shortest Path of each vertex from source
+    {
+        // Code here
+        vector<int> ans(V,INT_MAX); // To Store shortest Path of each vertex from source
+        set<pair<int,int>> my_set;  // SET stores pair in which second element will be vertex V and First element will be distance from to vertex V.
+        my_set.insert({0,S});  // Initially we insert Source vertex and its distance as 0.
+        
+        while(my_set.empty()!=1)
+        {
+            pair<int,int> curr=*(my_set.begin());  // This will get top first element of  SET that will be minimum of all.
+            my_set.erase(curr);
+            if(ans[curr.second]==INT_MAX)  // If it is not visited till now, It will be minimum for sure
+            {
+                ans[curr.second]=curr.first;
+                for(auto&i:adj[curr.second])  // Traverse to all its adjacent vertex and push it in SET
+                {
+                        my_set.insert({curr.first+i[1],i[0]});  
+                }
+            }
+        }
+        return ans;
+    }
