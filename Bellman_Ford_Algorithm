@@ -1,0 +1,35 @@
+// Bellman-Ford Algorithm is used to find shortest path in a weighted and unweighted graph. It can be also used for negative eight edges and helpful in detection of negative cycle.
+
+vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) { // This function takes no. of edges as V, 2-D array edges(u,v,wt) denoting that there is an edge from vertex u to v having weight wt and a source vertex S.
+        vector<int> dist(V,1e8); // Initialize distance of every vertex as INT_MAX
+        dist[S]=0; // Mark the source vertex as 0
+        int n=edges.size();
+        for(int i=1;i<=V-1;i++)  // Traverse the edges vertex N-1 times. In worst case, traversing N-1 times is enough to determine the shortest path of all the vertex.
+        {
+            for(int j=0;j<n;j++)  // Traversing the edge vertor
+            {
+                int u=edges[j][0];
+                int v=edges[j][1];
+                int wt=edges[j][2];
+                int curr=dist[u]+wt;
+                if(dist[u]!=1e8 && curr<dist[v]) // If the new distace is lesser, we update the answer.
+                    dist[v]=curr;
+            }
+        }
+  
+        for(int j=0;j<n;j++)   // We are traversing the edge vector again to check for Negative weight cycle.
+        {
+            int u=edges[j][0];
+            int v=edges[j][1];
+            int wt=edges[j][2];
+            int curr=dist[u]+wt;
+            if(dist[u]!=1e8 && curr<dist[v]) // If a new distace which is lesser than current is found, if signifies that a negative weight cycle is present in the graph.
+            {
+                vector<int> ans;
+                ans.push_back(-1);  // Returning -1, denoting present of negative weight cycle.
+                return ans;
+            }
+        }
+        return dist; // Returning the vector containg shortest path from the source the vertex.
+        
+    }
