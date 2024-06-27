@@ -1,0 +1,38 @@
+// Floyd Warshall Algorithm is used to find the shortest distances between every pair of vertices in an edge-weighted directed graph.
+// The graph is represented as an adjacency matrix of size n*n. Matrix[i][j] denotes the weight of the edge from i to j. 
+
+void shortest_distance(vector<vector<int>>&matrix){
+	    
+	    // Code here
+	    int n=matrix.size();
+	    for(int i=0;i<n;i++)
+	    {
+	        for(int j=0;j<n;j++)
+	        {
+	            if(matrix[i][j]==-1)
+	                matrix[i][j]=INT_MAX;
+	        }
+	    }
+	    for(int via=0;via<n;via++)
+	    {
+	        for(int i=0;i<n;i++)
+	        {
+	            for(int j=0;j<n;j++)
+	            {
+	                long long tmp=(long long)matrix[i][via]+matrix[via][j];
+	                if(tmp<INT_MAX)
+	                    matrix[i][j]=min(matrix[i][j],matrix[i][via]+matrix[via][j]);
+	            }
+	        }
+	    }
+	    for(int i=0;i<n;i++)
+	    {
+	        for(int j=0;j<n;j++)
+	        {
+	            if(matrix[i][j]==INT_MAX)
+	                matrix[i][j]=-1;
+	        }
+	    }
+	    return;
+	    
+	}
