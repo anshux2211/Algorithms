@@ -1,0 +1,96 @@
+// Kruskal's Algorithm is used to determine Minimum Spanning Tree using Disjoint Data Structure.
+// It stores the sorted edges from miminum edges weight to maximum edges weight.
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<int> parent,sz;  
+void create(int n)          // This function intializes parent and size array. Here assuming 0-based indexing
+{
+    parent.resize(n);
+    sz.resize(n,1);
+    for(int i=0;i<n;i++)    // Initially, parent of all vertex is made to point itself.
+        parent[i]=i;
+    return;
+}
+
+int findParent(int u)   // This function returns the ultimate parent of any vertex.
+{
+    if(u==parent[u])
+        return u;
+    parent[u]=findParent(parent[u]);    // Path Compression
+    return parent[u];
+}
+
+void Union_By_Size(int u,int v)     // This function combines two vertex(if they dont't belog to the same component)
+{
+    int p1=findParent(u);   // First, we find ultimate parent of both vertex
+    int p2=findParent(v);
+    if(p1!=p2)      // Checks weather they belong to same component or not.
+    {
+        if(sz[p1]<=sz[p2])      // Union operation is performed basedon their size
+        {
+            sz[p2]+=sz[p1];
+            parent[p1]=p2;
+        }
+        else
+        {
+            sz[p1]+=sz[p2];
+            parent[p2]=p1;
+        }
+    }
+    return;
+}
+
+vector<pair<int,pair<int,int>>> KruskalAlgorithm(int V,int E,vector<pair<int,pair<int,int>>>&edges)     // Kruskal's Algorith
+{       // This functions takes no. of Vertices V, edges E and vector of edges. edges contains 3 elements- weight of edge, vertex u and vertex v
+    create(V);  // Calling create function to initialize the parent and size array.
+    sort(edges.begin(),edges.end());    // Sort the edges based on edge-weight
+    vector<pair<int,pair<int,int>>> MST;    // This store the edges that will be present in our MST
+
+    for(int i=0;i<E;i++)    // Traversing through all the edges.
+    {
+        int u,v,wt;
+        wt=edges[i].first; 
+        u=edges[i].second.first;
+        v=edges[i].second.second;
+        if(findParent(u)!=findParent(v)){       // Check if they belong to same component by finding their ultimate parent
+            
+            MST.push_back({wt,{u,v}});  // If they don't belong to same component they combine both the component
+            Union_By_Size(u,v);
+        }
+        
+    }
+    return MST;     // Return the MST
+}
+
+int main()
+{
+    int V,E;
+    cin>>V>>E;  // Input No. of Vertices and edges
+    vector<pair<int,pair<int,int>>> edges(E);   // Create a vector to store the edges
+    for(int i=0;i<E;i++)
+    {
+        int u,v,wt;
+        cin>>u>>v>>wt;  // Input the edges
+        edges[i]={wt,{u,v}};
+    }
+
+    
+    vector<pair<int,pair<int,int>>> MST=KruskalAlgorithm(V,E,edges);    // Call the Kruskal Algorithm 
+    cout<<"EDGES of MST:"<<endl;
+    for(auto&i:MST)     // Print the edges of the MST
+    {
+        int u,v,wt;
+        u=i.second.first;
+        v=i.second.second;
+        wt=i.first;
+        cout<<u<<" "<<v<<" "<<wt<<endl;
+    }
+
+}
+
+
+
