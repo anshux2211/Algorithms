@@ -13,6 +13,9 @@
         {
             pair<int,int> curr=pq.top();    // Top Element
             pq.pop();
+            if(curr.first>dist[curr.second])
+                continue;
+            
             for(auto&i:adj[curr.second])    // Seraching all the paths we can go from this current node
             {
                 int tmp=curr.first+i[1];    // And how much time will we take
