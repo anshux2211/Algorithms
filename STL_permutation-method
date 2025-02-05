@@ -1,0 +1,55 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define mod 1000000007
+#define ll long long
+#define endl "\n"
+
+//------ THINK TWICE, CODE ONCE -------
+
+
+void nextPermutation()
+{
+    vector<int>vec={2,1,2,3,1};
+    do{
+        for(auto&i:vec)
+            cout<<i<<" ";
+        cout<<endl;
+    }while(next_permutation(vec.begin(),vec.end()));
+    
+    /*
+    Time Complexity: O(n), for each permutation where n is the number of elements in the range.
+    Auxiliary Space: O(1)
+    Explanation: The total number of permutations of vector of 3 elements is 3! = 6.
+    We already took the smallest possible permutation as the starting point, so we were
+    able to print all the permutations using next_permutation().
+    */
+}
+
+void prevPermutation(){
+    vector<int>vec={2,1,2,3,1};
+    do{
+        for(auto&i:vec)
+            cout<<i<<" ";
+        cout<<endl;
+    }while(prev_permutation(vec.begin(),vec.end()));
+    
+    /*
+    Time Complexity: O(n), for each permutation where n is the number of elements in the range.
+    Auxiliary Space: O(1)
+    
+    Explanation: The total number of permutations of vector of 3 elements is 3! = 6.
+    But we were only able to print 3 permutations because we didn’t took the largest
+    permutation as starting point for prev_permutation() function. So, all the permutation
+    greater than the permutation {2, 1, 3} are left out.
+    */
+}
+
+int main() {
+	ios::sync_with_stdio(0); cin.tie(0);
+    
+    // nextPermutation();
+    
+    prevPermutation();
+
+	return 0;
+}
